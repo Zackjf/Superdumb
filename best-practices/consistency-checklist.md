@@ -1,138 +1,202 @@
 # Consistency Checklist
 
-Run this before shipping any multi-page build. Copy the checklist, check each item, flag violations.
+Practical audits and templates for keeping a UI consistent. Run these before shipping.
 
 ---
 
-## Vocabulary Registry Template
+## 1. Vocabulary Registry
 
-Create this at the start of every project. Check it before writing any user-facing text.
+Define every user-facing concept once. Use this template to prevent the same thing from being called three different names.
 
-| Concept | User-facing word | NOT these | Notes |
-|---|---|---|---|
-| The things users create | Projects | Workspaces, Items, Work, Folders | |
-| People on the team | Team members | Users, People, Accounts, Seats | "Members" OK in tight spaces |
-| Removing permanently | Delete | Remove, Trash, Discard, Destroy | Always "Delete [thing]" |
-| Removing from a group | Remove | Delete, Unlink, Detach | "Remove from team" |
-| Hiding without deleting | Archive | Hide, Deactivate, Disable | |
-| Saving changes | Save | Submit, Update, Apply, Commit | Button: "Save changes" |
-| Creating new | Create | Add, New, Make, Insert | "Add" OK for adding to groups |
-| The subscription | Plan | Tier, License, Package, Bundle | |
-| Money the user pays | Payment | Invoice, Charge, Transaction | |
-| Finding things | Search | Query, Filter, Find | |
-| Logging in | Sign in | Authenticate, Log in, Auth | Pick one, use everywhere |
-| Logging out | Sign out | Log out, Disconnect, End session | Match "Sign in" |
+| Concept | User-facing word | NOT these words | Where it appears |
+|---------|-----------------|-----------------|------------------|
+| The things users create | **Projects** | Workspaces, Items, Work, Folders | Nav, cards, empty states |
+| People on the team | **Team members** | Users, People, Accounts, Seats | Settings, invite flow, sidebar |
+| Removing permanently | **Delete** | Remove, Trash, Discard, Destroy | Modals, menus, buttons |
+| Removing from a group | **Remove** | Delete, Unlink, Detach | List actions, modals |
+| Hiding without deleting | **Archive** | Hide, Deactivate, Disable | List actions, filters |
+| Saving changes | **Save** | Submit, Update, Apply, Commit | Form buttons (always "Save changes") |
+| Creating new | **Create** | Add, New, Make, Insert | Buttons ("Add" OK for adding to groups) |
+| The subscription | **Plan** | Tier, License, Package, Bundle | Pricing, settings, banners |
+| Finding things | **Search** | Query, Filter, Find | Search bars, nav |
+| Logging in | **Sign in** | Log in, Authenticate, Auth | Auth screens, nav |
+| Logging out | **Sign out** | Log out, Disconnect, End session | User menu (must match "Sign in") |
+| Help content | **Help center** | Docs, KB, FAQ, Support | Nav, footer, tooltips |
 
----
-
-## Vocabulary Audit
-
-- [ ] Pick one word for each concept. Search the codebase for alternatives. Replace all.
-- [ ] Check that navigation labels match page headings exactly.
-- [ ] Check that button labels use the same verb for the same action everywhere.
-- [ ] Check that error messages use the same terms as the rest of the UI.
-- [ ] Check that empty states use the same terms as the populated states.
+**How to audit:** Search your codebase for all user-facing strings. Grep button labels, headings, toasts, and error messages. Flag any concept with 2+ names.
 
 ---
 
-## Button Audit
+## 2. Button Audit
 
-- [ ] Every button uses verb + noun ("Save changes", "Delete project", "Send message")
-- [ ] No buttons say just "Submit", "OK", "Yes", "No", "Confirm", or "Click here"
-- [ ] Primary buttons have the same style (filled, high contrast) on every page
-- [ ] Secondary buttons have the same style (outlined or muted) on every page
-- [ ] Destructive buttons have the same style (red or danger variant) on every page
-- [ ] Save/submit buttons are in the same position on every form
+Every button should use the format **verb + noun** (or just a verb for obvious contexts).
 
----
+| Check | Pass | Fail |
+|-------|------|------|
+| Buttons use verb + noun | "Save changes," "Add member," "Export CSV" | "Submit," "OK," "Next," "Go" |
+| Destructive buttons name the action | "Delete project," "Remove member" | "Yes," "Confirm," "OK" |
+| Cancel is consistent | Always "Cancel" (not sometimes "Close," "Dismiss," "Back") | Mixed: "Cancel" here, "Close" there |
+| One primary button per section | One filled button per screen section | Two filled buttons competing |
+| Labels match the result | "Create account" actually creates an account | "Submit" (submit what?) |
 
-## Position Audit
-
-- [ ] Save/submit button: same position on every form (bottom-right, bottom-left, or top-right — pick one)
-- [ ] Cancel button: same position relative to save on every form
-- [ ] Search bar: same position on every page that has search
-- [ ] Primary navigation: same position on every page (sidebar or top bar, not mixed)
-- [ ] User menu / profile: same position on every page
-- [ ] Destructive actions: same position relative to other actions on every page
+**Quick test:** Read every button on every screen out loud. If you can't tell what will happen from the label alone, rewrite it.
 
 ---
 
-## Visual Audit
+## 3. Position Audit
 
-- [ ] Same button component used for same function (not custom buttons on some pages)
-- [ ] Same card style for similar content (same border radius, shadow, padding)
-- [ ] Same table style for all data tables (same header, row height, hover)
-- [ ] Same icon set everywhere (don't mix Material, Feather, Lucide, etc.)
-- [ ] Same font sizes for same hierarchy level (h1 is the same size on every page)
-- [ ] Same colors for same meanings (blue = interactive, red = error/destructive, green = success)
-- [ ] Same spacing between elements (don't use 16px gaps on one form and 24px on another)
+Shared elements must appear in the same position across all screens.
 
----
+| Element | Expected position | Check every screen |
+|---------|-------------------|--------------------|
+| Primary navigation | Left sidebar or top bar (pick one) | Does it ever move or disappear? |
+| Page title | Top-left of content area | Ever missing or in a different spot? |
+| Primary CTA | Top-right of content area or bottom of form | Does it jump between locations? |
+| Back / breadcrumb | Top-left, above the page title | Missing on any drill-down pages? |
+| Search | Top of page or top of sidebar | Disappears on some screens? |
+| User avatar / menu | Top-right corner | Always there? |
+| Toast / notifications | Top-right or bottom-center (pick one) | Mixed positions? |
+| Save/submit button | Same position on every form | Bottom-right on some, bottom-left on others? |
+| Cancel button | Same position relative to save on every form | Moves around? |
 
-## Behavior Audit
-
-- [ ] Same interaction = same result everywhere
-  - If clicking a list item opens a detail panel on one page, it does the same on others
-  - If swipe-to-delete works on one list, it works on every list
-- [ ] If forms auto-save on one page, they auto-save on every page. If one requires clicking "Save", all do.
-- [ ] Same loading pattern everywhere (skeleton, spinner, or inline — pick one)
-- [ ] Same success feedback everywhere (toast, inline, or banner — pick one)
-- [ ] Same error display everywhere (inline below field, banner at top, or toast — be consistent)
+**How to audit:** Screenshot every screen. Lay them out in a grid. Draw lines where shared elements sit. Crooked lines = inconsistency.
 
 ---
 
-## Error Handling Audit
+## 4. Visual Audit
 
-- [ ] All forms show validation errors inline below the field (not in a banner, not in a toast)
-- [ ] All API errors show a human message (not raw error.message)
-- [ ] All network errors show "Check your connection" with retry
-- [ ] All destructive actions are confirmed the same way (all use dialog, or all use undo toast — not mixed)
-- [ ] All error messages have the same tone (not formal on one page and casual on another)
-- [ ] No alert() or confirm() anywhere — all use in-app components
+Same components must look the same everywhere.
 
----
+| Component | What to check |
+|-----------|---------------|
+| Buttons | Same padding, border-radius, font-size across all screens? |
+| Cards | Same shadow, border, corner radius? |
+| Form inputs | Same height, border color, focus state? |
+| Typography | Same heading sizes (H1, H2, H3) on all pages? |
+| Icons | Same icon set? Same size? Same stroke width? No mixing sets? |
+| Colors | Same blue for all primary actions? Same red for all errors? Same green for success? |
+| Spacing | Same padding inside cards? Same gap between sections? |
+| Avatars | Same size and shape (round vs. square) everywhere? |
+| Tables | Same header style, row height, hover state? |
 
-## Empty State Audit
-
-- [ ] Every list, table, grid, and feed has an empty state (not a blank area)
-- [ ] Every empty state has: a brief explanation, why it's empty, and a CTA
-- [ ] Empty states use consistent styling (same icon size, same text treatment)
-- [ ] Empty states for "no results" differ from "nothing created yet"
-- [ ] Empty states link to the primary input action when relevant
-
----
-
-## Destructive Action Audit
-
-Search for all delete/remove/archive handlers in the codebase:
-
-- [ ] All destructive actions are confirmed before executing
-- [ ] Confirmation dialogs name the specific item ("Delete 'Project Alpha'?" not "Are you sure?")
-- [ ] Confirmation dialogs describe consequences ("This removes all 12 files inside it")
-- [ ] The destructive button has a specific label ("Delete project" not "Yes" or "Confirm")
-- [ ] The safe option is visually dominant (Cancel = primary style, Delete = red/danger)
-- [ ] All destructive actions use the same confirmation pattern (all dialog, or all undo toast)
+**How to audit:** Open two screens side by side. Compare the same component type. If you spot a difference, check which one matches the design system and fix the other.
 
 ---
 
-## Navigation Audit
+## 5. Behavior Audit
 
-- [ ] Same items in same order on every page
-- [ ] Active page is visually highlighted in the navigation
-- [ ] Navigation labels match page headings (if nav says "Analytics", page says "Analytics")
-- [ ] No more than 8-10 top-level nav items
-- [ ] Navigation doesn't disappear on any page (unless intentionally hidden in focused flows like checkout)
-- [ ] No nav items link to pages that don't exist
+Same interactions must produce the same results everywhere.
+
+| Interaction | Expected behavior | Common inconsistency |
+|-------------|-------------------|----------------------|
+| Click outside a modal | Closes the modal | Some modals close, others don't |
+| Press Escape | Closes modal / dropdown / overlay | Works on some overlays, not others |
+| Click a table row | Opens detail view OR does nothing (pick one) | Opens detail on one table, selects on another |
+| Form submit on Enter | Submits the form | Works on login, not on other forms |
+| Unsaved changes + navigate | Shows "Unsaved changes" warning | Some forms warn, others silently discard |
+| Auto-save vs. manual save | One approach everywhere | Some forms auto-save, others need a button |
+| Loading pattern | Skeleton, spinner, or inline (pick one) | Mixed: skeleton on page A, spinner on page B |
+| Success feedback | Toast, inline, or banner (pick one) | Toast on save, inline on delete, nothing on archive |
+| Error display | Inline below field, not in a banner | Inline on some forms, banner on others |
+
+**How to audit:** List every interaction pattern in your app. Test each one on every screen. Flag differences.
 
 ---
 
-## Reuse Audit
+## 6. Navigation Audit
 
-- [ ] Does a better component already exist in the codebase for any job being done manually?
-  - MediaField exists → are all image inputs using it? (not raw URL text fields)
-  - PendingButton exists → are all loading-state buttons using it?
-  - ConfirmDialog exists → are all destructive actions using it?
-  - UnsavedChangesBanner exists → is it wired into all editors?
-- [ ] Are there duplicate implementations of the same pattern? (two different toast systems, two different modal components)
-- [ ] Search for `alert(` and `confirm(` — replace all with in-app components
-- [ ] Search for `dangerouslySetInnerHTML` — is every instance sanitized?
+Nav labels must match the page headings they link to.
+
+| Check | Pass | Fail |
+|-------|------|------|
+| Labels match headings | Nav says "Team," page H1 says "Team" | Nav says "Settings," page says "Account settings" |
+| Same items in same order | Nav is identical on every page | Items reorder or disappear |
+| Active state shown | Current page is highlighted in nav | No visual indicator of current location |
+| Max items respected | 8-10 top-level nav items | 15+ items with no grouping |
+| All links work | Every nav item leads to a built page | Links to placeholder or 404 pages |
+| Consistent on all screens | Nav is present everywhere | Disappears on some pages (except focused flows like checkout) |
+
+**Rule:** The word you click must be the word you see as the H1 on the page you land on. No exceptions.
+
+---
+
+## 7. Error Handling Audit
+
+Every error must follow the same pattern.
+
+| Error type | Required format | Common failures |
+|------------|----------------|-----------------|
+| Validation | Inline below the field: "[Field] + [what's wrong] + [how to fix]" | Generic "Invalid input" or errors at page top |
+| Network | Toast or banner: "Couldn't save. Check your connection and try again." | Silent failure (user thinks it saved) |
+| Server | "Something went wrong on our end. We've been notified." | Stack trace or raw error.message |
+| Permission | "You don't have access. [Request access]" | Blank screen or redirect to login |
+| Not found | "This [thing] was deleted or moved. [Go back]" | Generic 404 page |
+
+**Additional checks:**
+- [ ] No `alert()` or `confirm()` anywhere -- all use in-app components
+- [ ] All error messages have the same tone (not formal on one page, casual on another)
+- [ ] Errors appear near the problem (inline), not dumped at the top of the page
+- [ ] All API errors show a human message, never raw error objects
+
+---
+
+## 8. Empty State Audit
+
+Every list, table, feed, and collection must have a designed empty state.
+
+| Screen / Component | Has empty state? | Has explanation? | Has CTA? |
+|--------------------|:----------------:|:----------------:|:--------:|
+| Projects list | [ ] | [ ] | [ ] |
+| Notifications | [ ] | [ ] | [ ] |
+| Search results (no match) | [ ] | [ ] | [ ] |
+| Activity feed | [ ] | [ ] | [ ] |
+| Team members | [ ] | [ ] | [ ] |
+| Data tables | [ ] | [ ] | [ ] |
+| File uploads area | [ ] | [ ] | [ ] |
+| Comments section | [ ] | [ ] | [ ] |
+
+**Rules:**
+- "No results" (searched but nothing matched) must differ from "nothing created yet"
+- Every empty state needs: (1) what this area is for, (2) why it's empty, (3) how to add the first item
+- Never show a blank white space where data will eventually appear
+
+**How to audit:** Create a brand-new test account. Every screen you see is an empty state. Screenshot all of them.
+
+---
+
+## 9. Destructive Action Audit
+
+Every destructive action must be confirmed consistently.
+
+| Check | Pass | Fail |
+|-------|------|------|
+| Confirmation shown | Every destructive action shows a confirmation | Some delete instantly, others confirm |
+| Names the item | "Delete 'Q3 Report'?" | "Are you sure?" |
+| States consequences | "This removes all 12 files and cannot be undone." | "This action is irreversible." (too vague) |
+| Specific button label | [Cancel] and [Delete project] | [No] and [Yes] |
+| Danger styling | Destructive button is red/danger, NOT primary blue | Delete button looks the same as "Save" |
+| Safe option is default | Cancel is visually dominant, danger is secondary | Delete is the highlighted option |
+| Consistent pattern | All use dialog, or all use undo toast (not mixed) | Some use dialog, some delete instantly |
+
+**Severity scale:**
+
+| Severity | Example | Required confirmation |
+|----------|---------|----------------------|
+| Low | Remove a tag, dismiss a notification | No modal (allow undo via toast) |
+| Medium | Delete a file, remove a team member | Confirmation modal |
+| High | Delete a project, cancel a subscription | Modal + consequence summary |
+| Critical | Delete account, wipe all data | Type the name to confirm |
+
+---
+
+## Master Checklist (pre-release)
+
+- [ ] **Vocabulary:** Every concept has one name (check the registry)
+- [ ] **Buttons:** All use verb + noun format
+- [ ] **Positions:** Shared elements are in the same spot on every screen
+- [ ] **Visuals:** Same components use same styles everywhere
+- [ ] **Behaviors:** Same interactions produce same results everywhere
+- [ ] **Navigation:** Nav labels match page headings word-for-word
+- [ ] **Errors:** Every error follows the same format and placement
+- [ ] **Empty states:** Every list/table/feed has a designed empty state with a CTA
+- [ ] **Destructive actions:** All confirmed with the right severity level
