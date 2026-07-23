@@ -240,6 +240,107 @@ The UX spec is the bridge between the technical spec and the code. When the agen
 
 The agent should reference each wireframe while building the corresponding screen, not the original technical spec. The UX spec IS the spec for implementation — the technical spec is the spec for the backend.
 
+## User Journey Map
+
+After wireframing individual screens, map the primary user journey — the path from intent to completion. Count the taps/clicks.
+
+```
+JOURNEY: Patient with a toothache → talking to the clinic
+
+1. Google search → lands on homepage                    (0 taps)
+2. Sees hero + prices + "Agendar por WhatsApp"         (scanning)
+3. Taps WhatsApp button                                 (1 tap)
+4. WhatsApp opens with pre-filled message               (1 tap to send)
+5. Talking to the clinic                                (done)
+
+Total: 2 taps from landing to conversation.
+```
+
+Include one journey map per primary user type. For the dental clinic:
+- Journey 1: Patient with a toothache → WhatsApp (2 taps)
+- Journey 2: Patient comparing clinics → services/prices → WhatsApp (3 taps)
+- Journey 3: Admin updates a price → services list → edit → save (3 taps)
+
+If any primary journey takes more than 4 taps, simplify.
+
+## Mobile-First Wireframes
+
+If the majority of your users are on phones (true for most consumer and local business sites), **wireframe mobile first**. The mobile layout is the primary design; desktop is the expansion.
+
+Show the mobile wireframe as the main wireframe, with a "Desktop" annotation explaining how it expands:
+
+```
+MOBILE (primary):
+┌──────────────────────┐
+│  [Logo]    [☰ Menu]  │
+│                      │
+│  Hero image          │
+│  "Tu sonrisa en      │
+│   las mejores manos" │
+│                      │
+│  [📱 Agendar cita]   │  ← full-width, thumb-reachable
+│  [Ver servicios]     │
+│                      │
+│  ...                 │
+└──────────────────────┘
+  [WhatsApp sticky button — bottom-right]
+
+DESKTOP: Hero side-by-side with image. Nav items visible (no hamburger).
+Two-column grid for service cards. Map beside contact info.
+```
+
+## Constraints Section
+
+Every spec should include a constraints section that affects technology and design decisions:
+
+```
+CONSTRAINTS:
+- Target market: Venezuela — slow/unreliable internet. Pages must load in <3s on 3G.
+- Primary device: Mobile phone (~90% of traffic).
+- Primary contact channel: WhatsApp (not email, not phone calls).
+- Admin users: Non-technical (receptionist, not developer).
+- Language: Spanish only. All UI, all copy, all admin.
+- Currency: USD (standard for professional services in Venezuela).
+- Legal: Privacy policy page required. No GDPR (not EU).
+```
+
+These constraints determine: static vs dynamic, framework choice, image compression, what fields to include, what channels to prioritize.
+
+## Notification & Follow-Up Flows
+
+For any spec that involves form submissions, requests, or bookings, define what happens AFTER the submission:
+
+```
+AFTER SUBMISSION:
+1. Patient sees: "¡Solicitud enviada! Te contactaremos en menos de 2 horas."
+2. Admin sees: New request appears in /admin/solicitudes with a badge on sidebar.
+3. Admin notification: WhatsApp message to clinic phone: "Nueva solicitud de cita:
+   Maria Garcia - Limpieza dental - 0414-555-1234"
+4. Admin action: Tap "Responder por WhatsApp" → opens wa.me with pre-filled greeting.
+```
+
+If the spec doesn't define notifications, the developer won't build them, and the admin won't know when a request comes in.
+
+## Context Carry-Over
+
+When a user navigates from one page to another and then takes an action, carry their context forward:
+
+- Viewing "Blanqueamiento" on services → taps WhatsApp → message pre-fills: "Hola, quiero consultar sobre blanqueamiento"
+- Viewing "Blanqueamiento" on services → taps "Solicitar cita" → contact form pre-selects "Blanqueamiento" in the dropdown
+- Admin clicks "Responder" on a request → WhatsApp opens with: "Hola [nombre], gracias por contactar Clinica Dental Sonrisas. Vi que necesitas [servicio]..."
+
+Every link, button, and CTA that leads to a form or message should carry context from where the user was.
+
+## Publish Behavior
+
+State explicitly whether admin edits are:
+- **Auto-publish** (save = live) — appropriate for simple sites where the admin IS the owner
+- **Draft → Publish** — appropriate for teams with review workflows
+
+For most local business sites: auto-publish. Save = live. No draft/review workflow. Say this in the spec so the developer doesn't over-build.
+
+---
+
 ## Anti-patterns
 
 **One wireframe per spec feature.** The spec has 8 features, so you make 8 screens. Wrong. Map features to user tasks, THEN determine screens. Some features combine. Some split. The number of screens should match the number of tasks, not the number of features.
