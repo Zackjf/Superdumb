@@ -1,0 +1,8 @@
+{
+  "name": "superdumb",
+  "description": "Makes AI coding agents build radically simpler, human-centered websites and UX. 27 skills that force agents to: know the user before building, use their words not developer jargon, build minimum screens with smart defaults, handle every error gracefully, and review as an outsider before shipping. Battle-tested against 4 real codebases (280+ issues found). Use whenever building any user-facing page, form, flow, or component.",
+  "author": {
+    "name": "Zack",
+    "email": ""
+  }
+}
