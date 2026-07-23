@@ -341,6 +341,217 @@ For most local business sites: auto-publish. Save = live. No draft/review workfl
 
 ---
 
+## Admin Wireframes (using Backstage patterns)
+
+Public pages and admin pages need different wireframe approaches. Public pages optimize for first impressions and conversion. Admin pages optimize for daily efficiency and repeat use.
+
+When wireframing admin screens, apply these Backstage patterns:
+
+### The Onboarding Wizard (EVERY admin gets one)
+
+The FIRST admin screen after signup is a setup wizard, not an empty dashboard.
+
+```
+SCREEN: Onboarding — Step 1 of 3
+BACKSTAGE PATTERN: onboarding-wizard
+PURPOSE: Get the admin from "just signed up" to "site has content" in under 5 minutes
+
+MOBILE:
+┌──────────────────────────┐
+│  [Product name]          │
+│  Step 1 of 3             │
+│  ●───○───○               │
+│                          │
+│  [Headline: what to do]  │
+│  [Why this matters]      │
+│                          │
+│  [THE FORM/ACTION]       │
+│                          │
+│  [Skip →]  [Continue →]  │
+└──────────────────────────┘
+
+BACKSTAGE CHECKS:
+✓ 3-5 steps max
+✓ Every step skippable
+✓ Progress indicator
+✓ Smart defaults pre-filled
+✓ Redirects here after signup (NOT to empty dashboard)
+✓ Returnable from sidebar later
+```
+
+### The Admin Dashboard
+
+```
+SCREEN: Dashboard
+BACKSTAGE PATTERN: dashboard-design
+PURPOSE: What needs attention today
+
+┌──────────┬───────────────────────────┐
+│          │                           │
+│ Sidebar  │  [Greeting, Name]        │
+│ (6-10    │                           │
+│  items,  │  ┌─────────┐             │
+│  grouped │  │ PRIMARY  │  ← the ONE │
+│  by task)│  │ METRIC   │    number   │
+│          │  └─────────┘             │
+│          │                           │
+│          │  ── Needs attention ──    │
+│          │  [Pending items list]     │
+│          │                           │
+│          │  ── Quick actions ──      │
+│          │  [2-3 common actions]     │
+│          │                           │
+└──────────┴───────────────────────────┘
+
+BACKSTAGE CHECKS:
+✓ 3-5 metrics max, ONE is primary (biggest)
+✓ Pending items with action links
+✓ Quick actions for daily tasks
+✓ No empty cards for new users (show setup progress instead)
+✓ Sidebar: max 8-10 items, grouped by task not entity
+✓ Mobile: sidebar collapses to hamburger
+```
+
+### Data Management Pages (lists, tables)
+
+```
+SCREEN: [Items] List
+BACKSTAGE PATTERN: data-tables
+
+┌──────────┬───────────────────────────┐
+│          │  [Page title]    [+ Add]  │
+│ Sidebar  │                           │
+│          │  [Search...] [Filters]    │
+│          │  ┌───────────────────┐    │
+│          │  │ Name    Status Act│    │
+│          │  │ Item A  Active [⋮]│    │
+│          │  │ Item B  Draft  [⋮]│    │
+│          │  │ Item C  Active [⋮]│    │
+│          │  └───────────────────┘    │
+│          │  1-10 of 34  [< >]       │
+│          │                           │
+└──────────┴───────────────────────────┘
+
+BACKSTAGE CHECKS:
+✓ Name/title column FIRST — no ID columns
+✓ Status as badge (not raw enum)
+✓ Actions in dropdown menu (last column)
+✓ Search + filters above table
+✓ Pagination with count
+✓ Empty state: "No [items] yet. [Create one →]"
+✓ Bulk select + bulk actions
+✓ Mobile: cards instead of table rows
+```
+
+### Edit/Create Modals or Pages
+
+```
+EDIT MODAL:
+┌──────────────────────────────┐
+│  Edit [item]                 │
+│                              │
+│  [Field 1 — most important]  │
+│  [Field 2]                   │
+│  [Field 3]                   │
+│  [Field 4 — optional]        │
+│                              │
+│  [Image: 📷 Upload, preview] │  ← NEVER a URL field
+│                              │
+│  [Delete]  [Cancel] [Save]   │
+└──────────────────────────────┘
+
+BACKSTAGE CHECKS:
+✓ Max 6-8 fields per modal. More → use a page with sections.
+✓ Most important fields first
+✓ Optional fields labeled "(optional)" or behind "More options"
+✓ Images use file upload with preview
+✓ Delete has confirmation dialog naming the item
+✓ Save shows loading → toast "Saved"
+✓ Form preserves input on error
+```
+
+### Settings Page
+
+```
+SCREEN: Settings
+BACKSTAGE PATTERN: settings-architecture
+
+┌──────────┬───────────────────────────┐
+│          │  Ajustes                  │
+│ Sidebar  │                           │
+│          │  ── Section 1 ──          │
+│          │  [3-5 related fields]     │
+│          │                           │
+│          │  ── Section 2 ──          │
+│          │  [3-5 related fields]     │
+│          │                           │
+│          │  [Save changes]           │
+│          │                           │
+│          │  ── Danger zone ──  🔴    │
+│          │  [Delete account]         │
+│          │                           │
+└──────────┴───────────────────────────┘
+
+BACKSTAGE CHECKS:
+✓ Grouped by task (3-5 sections)
+✓ Max 5-7 groups. If more → use tabs.
+✓ Danger zone at the bottom with red styling
+✓ Delete requires type-to-confirm
+✓ Auto-save or manual save (pick ONE for whole app)
+✓ Every setting has a sensible default
+```
+
+### Auth Pages
+
+```
+SCREEN: Login
+BACKSTAGE PATTERN: auth-flows
+
+┌───────────────┬──────────────────┐
+│               │                  │
+│  [Brand]      │  Welcome back    │
+│               │                  │
+│  "Value prop  │  [Google login]  │
+│   or trust    │  ── or ──       │
+│   signal"     │                  │
+│               │  Email           │
+│  Social proof │  [____________]  │
+│               │  Password  [👁]   │
+│               │  [______] [Forgot?]│
+│               │                  │
+│               │  [Sign in]       │
+│               │                  │
+│               │  No account?     │
+│               │  [Sign up →]     │
+│               │                  │
+└───────────────┴──────────────────┘
+
+BACKSTAGE CHECKS:
+✓ Branded — not default white box
+✓ Social auth ABOVE email/password
+✓ Show/hide password toggle
+✓ Forgot password next to password field
+✓ Link to signup (and vice versa)
+✓ autocomplete attributes on every field
+✓ Error: "Wrong email or password" (not "email not found")
+✓ Loading state on submit button
+✓ Post-login redirect preserves intended destination
+✓ Mobile: single column, left panel hidden
+```
+
+### Every Admin Wireframe Includes
+
+In addition to the standard public wireframe annotations, every admin wireframe MUST include:
+
+1. **BACKSTAGE CHECKS** — which admin patterns were applied (see examples above)
+2. **Mobile behavior** — sidebar collapse, table → cards, modal → full screen
+3. **Empty state** — what this screen looks like with no data + CTA to create first item
+4. **Loading state** — skeleton for the content area, not a full-page spinner
+5. **Role visibility** — what does this screen look like for admin vs member vs viewer? (if RBAC applies)
+6. **Claude bugs to prevent** — from the 15-item checklist: loading states on buttons, case-insensitive email, no alert(), filter state in URL
+
+---
+
 ## Anti-patterns
 
 **One wireframe per spec feature.** The spec has 8 features, so you make 8 screens. Wrong. Map features to user tasks, THEN determine screens. Some features combine. Some split. The number of screens should match the number of tasks, not the number of features.
