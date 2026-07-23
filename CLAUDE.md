@@ -105,8 +105,11 @@ When given a tech/product spec: run `skills/spec-to-ux/` to translate into a UX 
 ### Audit Existing UI
 When reviewing an existing project: run `skills/audit-existing-ui/` for a systematic walkthrough with prioritized fix table AND phased implementation plan (system-wide fixes → critical page fixes → major → architecture → polish).
 
-### Simplify
+### Simplify a Page
 When a page works but is overcomplicated: run `skills/simplify-the-page/` for a before/after redesign with fewer fields, smarter defaults, and outcomes over mechanisms.
+
+### Simplify a Spec
+When someone hands you an overcomplicated spec: run `skills/simplify-the-spec/` to strip it to its core goals. Non-technical people spec what they built last time, not what they need. Separate requirements from implementation details, merge modules that are really one thing, replace rigid mechanisms with flexible ones, and cut the spec to ~25% of its original length.
 
 ---
 
@@ -140,4 +143,5 @@ When a page works but is overcomplicated: run `skills/simplify-the-page/` for a 
 | Review | `outsider-review` | Walk as first-timer, rusher, non-technical, phone user. |
 | Special | `spec-to-ux` | Tech spec → UX spec with ASCII wireframes per screen. |
 | Special | `audit-existing-ui` | Systematic audit → phased implementation plan. |
+| Special | `simplify-the-spec` | Strip overcomplicated specs to core goals. 400 lines → 100. |
 | Special | `generous-inputs` | Accept any format, parse generously (Postel's Law). |
