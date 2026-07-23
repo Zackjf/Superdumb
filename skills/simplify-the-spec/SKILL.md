@@ -40,7 +40,7 @@ Go through the spec line by line and categorize:
 - File paths (`hooks_staging/`, `content_drafts/YYYY-MM-DD_...`)
 - JSON state files (`rotation_state.json`, `feedback_state.json`)
 - Naming conventions (`YYYY-MM-DD_POST-N_[PLATFORM]_[Article-Title]_[hook-slug].jpg`)
-- Specific API IDs (`C0BCA7M0RFT`, `U3LBDENQ6`)
+- Specific API IDs (`C0XXXXXXXX`, `U0XXXXXXX`)
 - Module boundaries (`Module 3 — Friday Hooks Batcher`)
 
 **Configuration** (things that should be settings, not spec):
@@ -188,7 +188,7 @@ A 400-line spec that becomes 100 lines hasn't lost information — it's lost imp
 
 **"The image filename must be YYYY-MM-DD_POST-N_[PLATFORM]..."** Unless an external system depends on this exact format, this is implementation. The requirement is "images are identifiable by date, post number, and platform." Let the developer pick the format.
 
-**Hardcoding IDs in the spec.** `C0BCA7M0RFT` means nothing to anyone reading this spec in 6 months. Say "the content bot Slack channel" and put the ID in configuration.
+**Hardcoding IDs in the spec.** `C0XXXXXXXX` means nothing to anyone reading this spec in 6 months. Say "the content bot Slack channel" and put the ID in configuration.
 
 **Auto-applying changes without review.** Specs from non-technical people often describe automation without safety nets because the manual process didn't have them either. Add human checkpoints for anything that modifies rules, content, or configuration.
 
